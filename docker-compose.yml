@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  golang:
+    container_name: go_app
+    image: golang:alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-go
+    ports:
+      - 8080:8080
+  elasticsearch:
+    container_name: es_go
+    image: bitnami/elasticsearch:latest
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - go_elastic
+    ports:
+      - 9200:9200
+networks:
+  go_elastic:
