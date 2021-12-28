@@ -67,11 +67,11 @@ func SearchHandler(order, unit, limit, latlon string, es *elasticsearch.Client, 
 	defer search.Body.Close()
 
 	if err != nil {
-		log.Fatalf("Error when get data. %s", err)
+		log.Printf("Error when get data. %s", err)
 	}
 
 	if err := json.NewDecoder(search.Body).Decode(&response); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		log.Printf("Error parsing the response body: %s", err)
 	}
 
 	headerStatus := http.StatusOK

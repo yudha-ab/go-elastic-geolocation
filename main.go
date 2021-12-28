@@ -6,14 +6,23 @@ import (
 
 	"github.com/elastic/go-elasticsearch"
 	"github.com/gin-gonic/gin"
-	"github.com/yudha-ab/elasticsearch-geolocation/Handlers"
+	"github.com/yudha-ab/go-elastic-geolocation/Handlers"
 )
 
 func main() {
+	cfg := &elasticsearch.Config{
+		Addresses: []string{
+			"http://es_go:9200",
+		},
+	}
 
 	// Use default settings from gin and ealsticsearch client
 	router := gin.Default()
-	es, _ := elasticsearch.NewDefaultClient()
+	es, err_c := elasticsearch.NewClient(*cfg)
+
+	if err_c != nil {
+		log.Printf("Error: %s", err_c)
+	}
 
 	// the URL will be `http(s)://{{host}}/api`
 	routeGroup := router.Group("/api")
@@ -58,6 +67,6 @@ func main() {
 
 	err := router.Run()
 	if err != nil {
-		log.Fatalf("Error creating routes: %s", err)
+		log.Printf("Error creating routes: %s", err)
 	}
 }

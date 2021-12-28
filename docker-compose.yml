@@ -7,13 +7,17 @@ services:
       context: .
       dockerfile: Dockerfile-go
     ports:
-      - 8080:8080
+      - 8181:8080
+    networks:
+      - go_elastic
   elasticsearch:
     container_name: es_go
     image: bitnami/elasticsearch:latest
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
+    volumes:
+      - ./.docker/elasticsearch/data:/bitnami/elasticsearch/data
     networks:
       - go_elastic
     ports:

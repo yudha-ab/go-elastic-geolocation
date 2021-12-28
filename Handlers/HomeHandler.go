@@ -14,11 +14,11 @@ func HomeHandler(es *elasticsearch.Client, context *gin.Context) {
 
 	result, err := es.Info()
 	if err != nil {
-		log.Fatalf("Error when getting elasticsearch info. %s", err)
+		log.Printf("Error when getting elasticsearch info. %s", err)
 	}
 
 	if err := json.NewDecoder(result.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		log.Printf("Error parsing the response body: %s", err)
 	}
 
 	headerStatus := http.StatusOK
